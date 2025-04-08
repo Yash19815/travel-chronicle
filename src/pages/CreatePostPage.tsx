@@ -22,7 +22,7 @@ const CreatePostPage: React.FC = () => {
     location: "",
     content: "",
     date: new Date().toISOString().split('T')[0],
-    imageUrl: "",
+    imageUrl: null, // Initialize as null since it's optional
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -78,10 +78,7 @@ const CreatePostPage: React.FC = () => {
       return;
     }
     
-    if (!formData.imageUrl) {
-      toast.error('Please upload an image');
-      return;
-    }
+    // Remove image validation since it's now optional
 
     try {
       setLoading(true);
@@ -143,7 +140,9 @@ const CreatePostPage: React.FC = () => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="image">Featured Image</Label>
+              <Label htmlFor="image">
+                Featured Image <span className="text-sm text-muted-foreground">(optional)</span>
+              </Label>
               <div className="flex flex-col items-center p-4 border-2 border-dashed rounded-md border-muted">
                 {imagePreview ? (
                   <div className="mb-4 w-full">
@@ -156,7 +155,7 @@ const CreatePostPage: React.FC = () => {
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
                     <ImageIcon className="mb-2 h-10 w-10" />
-                    <p className="mb-2">Upload a featured image</p>
+                    <p className="mb-2">Upload a featured image (optional)</p>
                     <p className="text-xs">Recommended size: 1200 x 800px</p>
                   </div>
                 )}

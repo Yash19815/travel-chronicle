@@ -5,7 +5,7 @@ export interface BlogPost {
   location: string;
   content: string;
   date: string;
-  imageUrl: string;
+  imageUrl: string | null; // Make imageUrl optional by allowing null
   createdAt: number;
 }
 

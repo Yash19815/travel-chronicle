@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ const CreatePostPage: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [formData, setFormData] = useState<BlogPostFormData>({
     title: "",
@@ -56,6 +57,13 @@ const CreatePostPage: React.FC = () => {
       toast.error('Failed to upload image. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const triggerFileInput = () => {
+    // Explicitly trigger the file input click
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
@@ -160,37 +168,35 @@ const CreatePostPage: React.FC = () => {
                   </div>
                 )}
                 
-                <label htmlFor="image" className="cursor-pointer">
-                  <div className="flex items-center">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="cursor-pointer"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Uploading...
-                        </>
-                      ) : (
-                        <>
-                          <Upload className="mr-2 h-4 w-4" />
-                          {imagePreview ? "Change Image" : "Select Image"}
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                  <input
-                    id="image"
-                    name="image"
-                    type="file"
-                    accept="image/*"
-                    className="sr-only"
-                    onChange={handleImageUpload}
-                    disabled={loading}
-                  />
-                </label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  disabled={loading}
+                  onClick={triggerFileInput}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Uploading...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="mr-2 h-4 w-4" />
+                      {imagePreview ? "Change Image" : "Select Image"}
+                    </>
+                  )}
+                </Button>
+                <input
+                  ref={fileInputRef}
+                  id="image"
+                  name="image"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageUpload}
+                  disabled={loading}
+                />
               </div>
             </div>
             
@@ -229,3 +235,4 @@ const CreatePostPage: React.FC = () => {
 };
 
 export default CreatePostPage;
+

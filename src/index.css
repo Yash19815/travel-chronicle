@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -75,7 +74,7 @@
 
 @layer components {
   .travel-card {
-    @apply rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg bg-white border border-border;
+    @apply rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg bg-white border border-border backdrop-blur-sm bg-white/80;
   }
   
   .travel-card-image {
